@@ -1,9 +1,9 @@
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import styles from './CalculatorForm.module.scss';
+import styles from './AmountForm.module.scss';
 
-const CalculatorForm = () => {
+const AmountForm = () => {
   return (
     <div className={styles.formWrapper}>
       <Form>
@@ -46,4 +46,4 @@ const CalculatorForm = () => {
   )
 }
 
-export default CalculatorForm
+export default AmountForm

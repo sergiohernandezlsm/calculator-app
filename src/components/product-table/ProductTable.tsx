@@ -1,7 +1,7 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
-import ProductTableForm from '../product-table-form';
+import ProductForm from '../product-form';
 import styles from './ProductTable.module.scss';
 
 export interface Props {
@@ -13,7 +13,7 @@ const ProductTable: React.FC<Props> = (props) => {
     <Col xs={12} md={6}>
       <div className={styles.productTableWrapper}>
         <h3>{props.title}</h3>
-        <ProductTableForm />
+        <ProductForm />
         <div className={styles.tableWrapper}>
           <Table striped bordered hover>
             <thead>

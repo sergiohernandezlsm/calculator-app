@@ -1,9 +1,9 @@
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import styles from './ProducTableForm.module.scss';
+import styles from './ProductForm.module.scss';
 
-const ProducTableForm = () => {
+const ProductForm = () => {
   return (
     <div className={styles.inputWrapper}>
       <Form>
@@ -29,4 +29,4 @@ const ProducTableForm = () => {
   )
 }
 
-export default ProducTableForm;
+export default ProductForm;

@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
-import CalculatorForm from '../../components/calculator-form';
+import CalculatorForm from '../../components/amount-form';
 
 const CalculatorPage = () => {
 
@@ -20,9 +20,9 @@ const CalculatorPage = () => {
         <CalculatorForm />
       </Row>
       <Row>
-        {loans.map(loan => {
+        {loans.map((loan, index) => {
           return (
-            <ProductTable title={loan.title} />
+            <ProductTable title={loan.title} key={`key-${index}`} />
           );
         })}
       </Row>
