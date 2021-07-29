@@ -1,0 +1,36 @@
+{
+  "productsData": [
+    {
+      "title": "Revolving Credit Facility",
+      "formData": {
+        "name": "revolving",
+        "placeholder": "Duration",
+        "text": "(in months)",
+        "label": "Interest rate"
+      }
+    },
+    {
+      "title": "Buniness loan",
+      "formData": {
+        "name": "buniness",
+        "placeholder": "Duration",
+        "text": "(in months)",
+        "label": "Interest rate"
+      }
+    }
+  ],
+  "formFields": [
+    {
+      "name": "amount",
+      "placeholder": "Amount",
+      "text": "(in £)",
+      "label": "Amount requested"
+    },
+    {
+      "name": "duration",
+      "placeholder": "Duration",
+      "text": "(in months)",
+      "label": "Duration"
+    }
+  ]
+}

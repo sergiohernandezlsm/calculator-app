@@ -1,37 +1,39 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
-import CalculatorForm from '../../components/amount-form';
+import CalculatorForm from '../../components/calculator-form';
+import { ProductTypes } from '../../types';
+import data from '../../services/data.json';
 
 const CalculatorPage = () => {
-
-  const loans = [
-    {
-      title: 'Revolving Credit Facility'
-    },
-    {
-      title: 'Buniness loan'
-    }
-  ];
-
-  const calculatorHandler = (e: any) => {
+  const calculatorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.name);
     console.log(e.target.value);
   }
 
   return (
     <Container>
       <Row>
-        <CalculatorForm calculatorHandler={calculatorHandler} />
+        <CalculatorForm
+          formField={data.formFields}
+          calculatorHandler={calculatorHandler}
+        />
       </Row>
       <Row>
-        {loans.map((loan, index) => {
+        {data.productsData.map((loan: ProductTypes, index: number) => {
           return (
-            <ProductTable calculatorHandler={calculatorHandler} title={loan.title} key={`key-${index}`} id={index} />
+            <ProductTable
+              productField={loan.formData}
+              calculatorHandler={calculatorHandler}
+              title={loan.title}
+              key={`key-${index}`}
+              id={index}
+            />
           );
         })}
       </Row>
     </Container>
   )
-}
+};
 
 export default CalculatorPage;

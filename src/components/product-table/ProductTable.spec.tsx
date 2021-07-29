@@ -2,7 +2,10 @@ import { shallow } from 'enzyme';
 import ProductTable, { Props } from './ProductTable';
 
 const props: Props = {
-  title: 'test title'
+  title: 'test title',
+  id: 1,
+  productField: [],
+  calculatorHandler: (x: any) => { },
 }
 
 describe('ProductTable Component', () => {
