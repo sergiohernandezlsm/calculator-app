@@ -1,46 +1,35 @@
+import React from 'react';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import FormInput from '../form-input';
 import styles from './AmountForm.module.scss';
 
-const AmountForm = () => {
+export interface Props {
+  calculatorHandler: (x: any) => void;
+}
+
+const AmountForm: React.FC<Props> = (props) => {
+
+  const formInputs = [
+    {
+      name: 'Amount requested',
+      placeholder: 'Amount',
+      text: '(in £)'
+    },
+    {
+      name: 'Duration',
+      placeholder: 'Duration',
+      text: '(in months)'
+    }
+  ];
+
   return (
     <div className={styles.formWrapper}>
       <Form>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Row>
-            <Col>
-              <Form.Label>Amount requested</Form.Label>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={8}>
-              <Form.Control type="number" placeholder="Amount" />
-            </Col>
-            <Col xs={4}>
-              <Form.Text className="text-muted">
-                (in £)
-              </Form.Text>
-            </Col>
-          </Row>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Row>
-            <Col>
-              <Form.Label>Duration</Form.Label>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={8}>
-              <Form.Control type="number" placeholder="Duration" />
-            </Col>
-            <Col xs={4}>
-              <Form.Text className="text-muted">
-                (in months)
-              </Form.Text>
-            </Col>
-          </Row>
-        </Form.Group>
+        {formInputs.map((input, index) => {
+          return (
+            <FormInput calculatorHandler={props.calculatorHandler} key={`key-${index}`} placeholder={input.placeholder} name={input.name} text={input.text} />
+          )
+        })}
       </Form>
     </div>
   )

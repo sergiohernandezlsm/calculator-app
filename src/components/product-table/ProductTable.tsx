@@ -6,6 +6,8 @@ import styles from './ProductTable.module.scss';
 
 export interface Props {
   title: string;
+  id: number;
+  calculatorHandler: (x: any) => void;
 }
 
 const ProductTable: React.FC<Props> = (props) => {
@@ -13,7 +15,7 @@ const ProductTable: React.FC<Props> = (props) => {
     <Col xs={12} md={6}>
       <div className={styles.productTableWrapper}>
         <h3>{props.title}</h3>
-        <ProductForm />
+        <ProductForm calculatorHandler={props.calculatorHandler} />
         <div className={styles.tableWrapper}>
           <Table striped bordered hover>
             <thead>

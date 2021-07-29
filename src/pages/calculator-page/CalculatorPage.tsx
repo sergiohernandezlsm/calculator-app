@@ -14,15 +14,19 @@ const CalculatorPage = () => {
     }
   ];
 
+  const calculatorHandler = (e: any) => {
+    console.log(e.target.value);
+  }
+
   return (
     <Container>
       <Row>
-        <CalculatorForm />
+        <CalculatorForm calculatorHandler={calculatorHandler} />
       </Row>
       <Row>
         {loans.map((loan, index) => {
           return (
-            <ProductTable title={loan.title} key={`key-${index}`} />
+            <ProductTable calculatorHandler={calculatorHandler} title={loan.title} key={`key-${index}`} id={index} />
           );
         })}
       </Row>

@@ -1,29 +1,17 @@
+import React from 'react';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import FornInput from '../form-input';
 import styles from './ProductForm.module.scss';
 
-const ProductForm = () => {
+export interface Props {
+  calculatorHandler: (x: any) => void;
+}
+
+const ProductForm: React.FC<Props> = (props) => {
   return (
     <div className={styles.inputWrapper}>
       <Form>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Row>
-            <Col>
-              <Form.Label>Interes rate</Form.Label>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={8}>
-              <Form.Control type="number" placeholder="Duration" />
-            </Col>
-            <Col xs={4}>
-              <Form.Text className="text-muted">
-                (in %)
-              </Form.Text>
-            </Col>
-          </Row>
-        </Form.Group>
+        <FornInput calculatorHandler={props.calculatorHandler} placeholder="Duration" text={'(in %)'} name={'Interes rate'} />
       </Form>
     </div>
   )
