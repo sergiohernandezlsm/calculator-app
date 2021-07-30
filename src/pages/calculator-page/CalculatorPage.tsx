@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ProductTypes, FieldTypes, StateTypes, ProductTableTypes } from '../../types';
+import { ProductTypes, FieldTypes, StateTypes } from '../../types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
 import FormInput from '../../components/form-input';
 import data from '../../services/data.json';
-import { getTotals } from '../../helpers';
+import { getTotals, calculatorTable } from '../../helpers';
 
 const CalculatorPage = () => {
   const [principal, setPrincipal] = useState(0);
@@ -33,34 +33,19 @@ const CalculatorPage = () => {
     dispatchValues(e, 'buninessCredit');
   }
 
-  const calculateRevolvingCredit = useCallback((creditName) => {
-
-
-    const calculatorTable = (creditValue: any, upFrontPayment: any = 0) => {
-      let initialCalculation: any = [] as ProductTableTypes[];
-      for (let i = 0; i < duration; i++) {
-        initialCalculation.push({
-          principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-          interest: (i !== 0 ? ((amount - (principal * i)) / 100) * creditValue : ((amount / 100) * creditValue) + upFrontPayment).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-          totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * creditValue : ((amount / 100) * creditValue) + upFrontPayment) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        })
-      }
-      return initialCalculation;
-    }
-
-
+  const calculateCredits = useCallback((creditName) => {
     if (creditName === 'revolvingCredit') {
-      setRevolvingCreditData(calculatorTable(revolvingCredit.value));
-      setTotalRevolvingCredit(getTotals(calculatorTable(revolvingCredit.value)));
+      setRevolvingCreditData(calculatorTable(revolvingCredit.value, 0, duration, principal, amount));
+      setTotalRevolvingCredit(getTotals(calculatorTable(revolvingCredit.value, 0, duration, principal, amount)));
     }
 
     if (creditName === 'buninessCredit') {
       const upFrontPayment = amount * 0.1;
-      setBusinessCreditData(calculatorTable(buninessCredit.value, upFrontPayment));
-      setTotalBusinessCredict(getTotals(calculatorTable(buninessCredit.value, upFrontPayment)));
+      setBusinessCreditData(calculatorTable(buninessCredit.value, upFrontPayment, duration, principal, amount));
+      setTotalBusinessCredict(getTotals(calculatorTable(buninessCredit.value, upFrontPayment, duration, principal, amount)));
     }
 
-  }, [amount, buninessCredit.value, duration, principal, revolvingCredit.value])
+  }, [amount, duration, principal, revolvingCredit.value, buninessCredit.value])
 
   useEffect(() => {
     if (amount !== 0 && duration !== 0) {
@@ -68,33 +53,34 @@ const CalculatorPage = () => {
     }
     if (principal !== 0) {
       if (revolvingCredit.value !== 0) {
-        calculateRevolvingCredit(revolvingCredit.name)
+        calculateCredits(revolvingCredit.name)
       }
       if (buninessCredit.value !== 0) {
-        calculateRevolvingCredit(buninessCredit.name)
+        calculateCredits(buninessCredit.name)
       }
     }
-  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateRevolvingCredit])
+  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits])
 
-  const newGeneralData = data.productsData.map(x => {
-    if (x.name === 'revolvingCredit') {
-      return {
-        ...x,
-        productData: revolvingCreditData,
-        totalRow: totalRevolvingCredit
-      }
-    }
-    if (x.name === 'buninessCredit') {
-      return {
-        ...x,
-        productData: businessCreditData,
-        totalRow: totalBusinessCredit
-      }
-    }
-    return {
-      ...x,
-      productData: [],
-      totalRow: {}
+  const creditsData = data.productsData.map(product => {
+    switch (product.name) {
+      case 'revolvingCredit':
+        return {
+          ...product,
+          productData: revolvingCreditData,
+          totalRow: totalRevolvingCredit
+        }
+      case 'buninessCredit':
+        return {
+          ...product,
+          productData: businessCreditData,
+          totalRow: totalBusinessCredit
+        }
+      default:
+        return {
+          ...product,
+          productData: [],
+          totalRow: {}
+        }
     }
   });
 
@@ -109,7 +95,7 @@ const CalculatorPage = () => {
               name={field.name}
               text={field.text}
               label={field.label}
-              min={10}
+              min={0}
               max={100}
               calculatorHandler={calculatorHandler}
             />
@@ -117,7 +103,7 @@ const CalculatorPage = () => {
         })}
       </Row>
       <Row>
-        {newGeneralData.map((loan: ProductTypes, index: number) => {
+        {creditsData.map((loan: ProductTypes, index: number) => {
           return (
             <ProductTable
               productField={loan.formData}
