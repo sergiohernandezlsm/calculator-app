@@ -2,7 +2,12 @@ import { Action } from 'redux';
 import { createStore } from 'redux';
 import { StateTypes } from '../types';
 
-const initialState: StateTypes = { amount: 0, duration: 0, revolvingCredit: 0, buninessCredit: 0 };
+const initialState: StateTypes = {
+  amount: 0,
+  duration: 0,
+  revolvingCredit: { value: 0, name: 'revolvingCredit' },
+  buninessCredit: { value: 0, name: 'buninessCredit' }
+};
 
 const calculatorReducer = (state: StateTypes = initialState, action: Action | any): StateTypes => {
   if (action.type === 'amount') {
@@ -20,13 +25,19 @@ const calculatorReducer = (state: StateTypes = initialState, action: Action | an
   if (action.type === 'revolvingCredit') {
     return {
       ...state,
-      revolvingCredit: action.payload,
+      revolvingCredit: {
+        value: action.payload,
+        name: 'revolvingCredit'
+      },
     };
   }
   if (action.type === 'buninessCredit') {
     return {
       ...state,
-      buninessCredit: action.payload,
+      buninessCredit: {
+        value: action.payload,
+        name: 'buninessCredit'
+      },
     };
   }
   return state;

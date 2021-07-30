@@ -10,7 +10,8 @@ import { useEffect } from 'react';
 
 const CalculatorPage = () => {
   const [principal, setPrincipal] = useState(0);
-  const [productData, setProductData] = useState([]);
+  const [revolvingCreditData, setRevolvingCreditData] = useState([]);
+  const [businessCreditData, setBusinessCreditData] = useState([]);
   const [totalRow, setTotalRow] = useState({ totalPrincipal: 0, totalInteres: 0, totalRepayment: 0 });
   const amount = useSelector((state: StateTypes) => state.amount);
   const duration = useSelector((state: StateTypes) => state.duration);
@@ -33,52 +34,60 @@ const CalculatorPage = () => {
     }
   }
 
-  const calculateProduct = useCallback(() => {
+  const calculateRevolvingCredit = useCallback(() => {
     let initialCalculation: any = [] as ProductTableTypes[];
-
-
     for (let i = 0; i < duration; i++) {
       initialCalculation.push({
         principal: principal,
-        interest: i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit : (amount / 100) * revolvingCredit,
-        totalRepayment: (i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit : (amount / 100) * revolvingCredit) + principal,
+        interest: i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value,
+        totalRepayment: (i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value) + principal,
       })
     }
+    setRevolvingCreditData(initialCalculation);
+  }, [amount, duration, principal, revolvingCredit.value])
 
-    setProductData(initialCalculation);
-
-
-
-    setTotalRow({
-      totalPrincipal: initialCalculation.map((x: ProductTableTypes) => x.principal).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0),
-      totalInteres: initialCalculation.map((x: ProductTableTypes) => x.interest).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0),
-      totalRepayment: initialCalculation.map((x: ProductTableTypes) => x.totalRepayment).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0)
-    });
-  }, [amount, duration, principal, revolvingCredit]);
+  const calculateBusinessCredit = useCallback(() => {
+    let initialCalculation: any = [] as ProductTableTypes[];
+    for (let i = 0; i < duration; i++) {
+      initialCalculation.push({
+        principal: principal,
+        interest: i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : (amount / 100) * buninessCredit.value,
+        totalRepayment: (i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : (amount / 100) * buninessCredit.value) + principal,
+      })
+    }
+    setBusinessCreditData(initialCalculation);
+  }, [amount, buninessCredit.value, duration, principal])
 
   useEffect(() => {
-    if (amount !== 0 && duration !== 0 && revolvingCredit !== 0) {
+    if (amount !== 0 && duration !== 0) {
       setPrincipal(amount / duration);
     }
-    if (principal !== 0) {
-      calculateProduct();
+    if (principal !== 0 && revolvingCredit.value !== 0) {
+      calculateRevolvingCredit();
     }
-  }, [amount, duration, revolvingCredit, principal, calculateProduct])
+    if (principal !== 0 && buninessCredit.value !== 0) {
+      calculateBusinessCredit();
+    }
+  }, [amount, buninessCredit.value, calculateBusinessCredit, calculateRevolvingCredit, duration, principal, revolvingCredit.value])
 
   const newGeneralData = data.productsData.map(x => {
+    if (x.name === 'revolvingCredit') {
+      return {
+        ...x,
+        productData: revolvingCreditData
+      }
+    }
+    if (x.name === 'buninessCredit') {
+      return {
+        ...x,
+        productData: businessCreditData
+      }
+    }
     return {
       ...x,
-      productData
+      productData: []
     }
   });
-
-  console.log('newGeneralData', newGeneralData)
 
   return (
     <Container>
@@ -107,7 +116,7 @@ const CalculatorPage = () => {
               title={loan.title}
               key={`key-${index}`}
               id={index}
-              productData={productData}
+              productData={loan.productData}
               totalRow={totalRow}
             />
           );

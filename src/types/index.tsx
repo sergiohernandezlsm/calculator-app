@@ -10,14 +10,15 @@ export interface FieldTypes {
 export interface ProductTypes {
   title: string;
   name: string;
+  productData: any;
   formData: FieldTypes;
 }
 
 export interface StateTypes {
   amount: number;
   duration: number;
-  revolvingCredit: number;
-  buninessCredit: number;
+  revolvingCredit: { value: number, name: string };
+  buninessCredit: { value: number, name: string };
 }
 
 export interface ProductTableTypes {
