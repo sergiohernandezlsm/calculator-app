@@ -38,7 +38,7 @@ const CalculatorPage = () => {
     for (let i = 0; i < duration; i++) {
       initialCalculation.push({
         principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        interest: i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value,
+        interest: (i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
         totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       })
     }
@@ -52,11 +52,12 @@ const CalculatorPage = () => {
     for (let i = 0; i < duration; i++) {
       initialCalculation.push({
         principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        interest: i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment,
+        interest: (i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
         totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       })
     }
     setBusinessCreditData(initialCalculation);
+    console.log(initialCalculation)
     setTotalBusinessCredict(getTotals(initialCalculation));
   }, [amount, buninessCredit.value, duration, principal])
 
