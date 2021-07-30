@@ -9,6 +9,8 @@ export interface Props {
   title: string;
   id: number;
   productField: FieldTypes;
+  productData: any;
+  totalRow: any;
   calculatorHandler: (x: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -32,17 +34,21 @@ const ProductTable: React.FC<Props> = (props) => {
               </tr>
             </thead>
             <tbody>
-              <tr className={styles.textStyle}>
-                <td>30/06/2019</td>
-                <td>£2.500</td>
-                <td>£300</td>
-                <td>£2.800</td>
-              </tr>
+              {props.productData.map((product: any, index: number) => {
+                return (
+                  <tr key={`key-${index}`} className={styles.textStyle}>
+                    <td>30/06/2019</td>
+                    <td>{`£${product.principal}`}</td>
+                    <td>{`£${product.interest}`}</td>
+                    <td>{`£${product.totalRepayment}`}</td>
+                  </tr>
+                )
+              })}
               <tr className={styles.textStyle}>
                 <td>Total</td>
-                <td>£10.000</td>
-                <td>£750</td>
-                <td>£10.750</td>
+                <td>{`£${props.totalRow.totalPrincipal}` || 0}</td>
+                <td>{`£${props.totalRow.totalInteres}` || 0}</td>
+                <td>{`£${props.totalRow.totalRepayment}` || 0}</td>
               </tr>
             </tbody>
           </Table>

@@ -15,14 +15,18 @@ const CalculatorForm: React.FC<Props> = (props) => {
       <Form>
         {props.formField.map((field: FieldTypes, index: number) => {
           return (
-            <FormInput
-              calculatorHandler={props.calculatorHandler}
-              key={`key-${index}`}
-              placeholder={field.placeholder}
-              name={field.name}
-              text={field.text}
-              label={field.label}
-            />
+            <div key={`key-${index}`}>
+              <FormInput
+                calculatorHandler={props.calculatorHandler}
+                key={`key-${index}`}
+                placeholder={field.placeholder}
+                name={field.name}
+                text={field.text}
+                label={field.label}
+                min={field.min}
+                max={field.max}
+              />
+            </div>
           )
         })}
       </Form>

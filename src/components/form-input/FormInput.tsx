@@ -8,6 +8,8 @@ export interface Props {
   placeholder: string;
   text: string;
   label: string;
+  min: number;
+  max: number;
   calculatorHandler: (x: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -28,6 +30,8 @@ const FormInput: React.FC<Props> = (props) => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.calculatorHandler(e)}
             type="number"
             placeholder={props.placeholder}
+            min={props.min}
+            max={props.max}
           />
         </Col>
         <Col xs={4}>

@@ -2,12 +2,12 @@ FROM node:14
 
 WORKDIR /app
 
-COPY package.json .
-COPY tsconfig.json .
+COPY package.json /app
+COPY tsconfig.json /app
 
 RUN npm install
 
-COPY . .
+COPY . /app
 
 EXPOSE 3000
 
