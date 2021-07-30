@@ -1,12 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ProductTypes, FieldTypes, StateTypes, ProductTableTypes } from '../../types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
-import { ProductTypes, FieldTypes, StateTypes, ProductTableTypes } from '../../types';
 import FormInput from '../../components/form-input';
 import data from '../../services/data.json';
-import { useEffect } from 'react';
+import { getTotals } from '../../helpers';
 
 const CalculatorPage = () => {
   const [principal, setPrincipal] = useState(0);
@@ -20,65 +20,44 @@ const CalculatorPage = () => {
   const buninessCredit = useSelector((state: StateTypes) => state.buninessCredit);
   const dispatch = useDispatch();
 
+  const dispatchValues = (e: React.ChangeEvent<HTMLInputElement>, reference: string) => {
+    if (e.target.name === reference) {
+      dispatch({ type: reference, payload: +e.target.value });
+    }
+  }
+
   const calculatorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === 'amount') {
-      dispatch({ type: 'amount', payload: +e.target.value });
-    }
-    if (e.target.name === 'duration') {
-      dispatch({ type: 'duration', payload: +e.target.value });
-    }
-    if (e.target.name === 'revolvingCredit') {
-      dispatch({ type: 'revolvingCredit', payload: +e.target.value });
-    }
-    if (e.target.name === 'buninessCredit') {
-      dispatch({ type: 'buninessCredit', payload: +e.target.value });
-    }
+    dispatchValues(e, 'amount');
+    dispatchValues(e, 'duration');
+    dispatchValues(e, 'revolvingCredit');
+    dispatchValues(e, 'buninessCredit');
   }
 
   const calculateRevolvingCredit = useCallback(() => {
     let initialCalculation: any = [] as ProductTableTypes[];
     for (let i = 0; i < duration; i++) {
       initialCalculation.push({
-        principal: principal,
+        principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
         interest: i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value,
-        totalRepayment: (i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value) + principal,
+        totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       })
     }
     setRevolvingCreditData(initialCalculation);
-    setTotalRevolvingCredit({
-      totalPrincipal: initialCalculation.map((x: ProductTableTypes) => x.principal).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0),
-      totalInterest: initialCalculation.map((x: ProductTableTypes) => x.interest).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0),
-      totalRepayment: initialCalculation.map((x: ProductTableTypes) => x.totalRepayment).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0)
-    });
+    setTotalRevolvingCredit(getTotals(initialCalculation));
   }, [amount, duration, principal, revolvingCredit.value])
 
   const calculateBusinessCredit = useCallback(() => {
     let initialCalculation: any = [] as ProductTableTypes[];
+    const upFrontPayment = amount * 0.1;
     for (let i = 0; i < duration; i++) {
       initialCalculation.push({
-        principal: principal,
-        interest: i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : (amount / 100) * buninessCredit.value,
-        totalRepayment: (i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : (amount / 100) * buninessCredit.value) + principal,
+        principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        interest: i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment,
+        totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       })
     }
     setBusinessCreditData(initialCalculation);
-    setTotalBusinessCredict({
-      totalPrincipal: initialCalculation.map((x: ProductTableTypes) => x.principal).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0),
-      totalInterest: initialCalculation.map((x: ProductTableTypes) => x.interest).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0),
-      totalRepayment: initialCalculation.map((x: ProductTableTypes) => x.totalRepayment).reduce((total: number, amount: number) => {
-        return total + amount
-      }, 0)
-    });
+    setTotalBusinessCredict(getTotals(initialCalculation));
   }, [amount, buninessCredit.value, duration, principal])
 
   useEffect(() => {
