@@ -12,7 +12,8 @@ const CalculatorPage = () => {
   const [principal, setPrincipal] = useState(0);
   const [revolvingCreditData, setRevolvingCreditData] = useState([]);
   const [businessCreditData, setBusinessCreditData] = useState([]);
-  const [totalRow, setTotalRow] = useState({ totalPrincipal: 0, totalInteres: 0, totalRepayment: 0 });
+  const [totalBusinessCredit, setTotalBusinessCredict] = useState({ totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 });
+  const [totalRevolvingCredit, setTotalRevolvingCredit] = useState({ totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 });
   const amount = useSelector((state: StateTypes) => state.amount);
   const duration = useSelector((state: StateTypes) => state.duration);
   const revolvingCredit = useSelector((state: StateTypes) => state.revolvingCredit);
@@ -44,6 +45,17 @@ const CalculatorPage = () => {
       })
     }
     setRevolvingCreditData(initialCalculation);
+    setTotalRevolvingCredit({
+      totalPrincipal: initialCalculation.map((x: ProductTableTypes) => x.principal).reduce((total: number, amount: number) => {
+        return total + amount
+      }, 0),
+      totalInterest: initialCalculation.map((x: ProductTableTypes) => x.interest).reduce((total: number, amount: number) => {
+        return total + amount
+      }, 0),
+      totalRepayment: initialCalculation.map((x: ProductTableTypes) => x.totalRepayment).reduce((total: number, amount: number) => {
+        return total + amount
+      }, 0)
+    });
   }, [amount, duration, principal, revolvingCredit.value])
 
   const calculateBusinessCredit = useCallback(() => {
@@ -56,6 +68,17 @@ const CalculatorPage = () => {
       })
     }
     setBusinessCreditData(initialCalculation);
+    setTotalBusinessCredict({
+      totalPrincipal: initialCalculation.map((x: ProductTableTypes) => x.principal).reduce((total: number, amount: number) => {
+        return total + amount
+      }, 0),
+      totalInterest: initialCalculation.map((x: ProductTableTypes) => x.interest).reduce((total: number, amount: number) => {
+        return total + amount
+      }, 0),
+      totalRepayment: initialCalculation.map((x: ProductTableTypes) => x.totalRepayment).reduce((total: number, amount: number) => {
+        return total + amount
+      }, 0)
+    });
   }, [amount, buninessCredit.value, duration, principal])
 
   useEffect(() => {
@@ -74,18 +97,21 @@ const CalculatorPage = () => {
     if (x.name === 'revolvingCredit') {
       return {
         ...x,
-        productData: revolvingCreditData
+        productData: revolvingCreditData,
+        totalRow: totalRevolvingCredit
       }
     }
     if (x.name === 'buninessCredit') {
       return {
         ...x,
-        productData: businessCreditData
+        productData: businessCreditData,
+        totalRow: totalBusinessCredit
       }
     }
     return {
       ...x,
-      productData: []
+      productData: [],
+      totalRow: {}
     }
   });
 
@@ -117,7 +143,7 @@ const CalculatorPage = () => {
               key={`key-${index}`}
               id={index}
               productData={loan.productData}
-              totalRow={totalRow}
+              totalRow={loan?.totalRow}
             />
           );
         })}

@@ -2,15 +2,19 @@ import React from "react";
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 import CalculatorForm from '../calculator-form';
-import { FieldTypes } from '../../types';
+import { FieldTypes, ProductTableTypes } from '../../types';
 import styles from './ProductTable.module.scss';
 
 export interface Props {
   title: string;
   id: number;
   productField: FieldTypes;
-  productData: any;
-  totalRow: any;
+  productData: ProductTableTypes[];
+  totalRow?: {
+    totalPrincipal?: number;
+    totalInterest?: number;
+    totalRepayment?: number;
+  };
   calculatorHandler: (x: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -34,7 +38,7 @@ const ProductTable: React.FC<Props> = (props) => {
               </tr>
             </thead>
             <tbody>
-              {props.productData && props.productData.map((product: any, index: number) => {
+              {props.productData && props.productData.map((product: ProductTableTypes, index: number) => {
                 return (
                   <tr key={`key-${index}`} className={styles.textStyle}>
                     <td>30/06/2019</td>
@@ -46,9 +50,9 @@ const ProductTable: React.FC<Props> = (props) => {
               })}
               <tr className={styles.textStyle}>
                 <td>Total</td>
-                <td>{`£${props.totalRow.totalPrincipal}` || 0}</td>
-                <td>{`£${props.totalRow.totalInteres}` || 0}</td>
-                <td>{`£${props.totalRow.totalRepayment}` || 0}</td>
+                <td>{`£${props.totalRow?.totalPrincipal}` || 0}</td>
+                <td>{`£${props.totalRow?.totalInterest}` || 0}</td>
+                <td>{`£${props.totalRow?.totalRepayment}` || 0}</td>
               </tr>
             </tbody>
           </Table>
