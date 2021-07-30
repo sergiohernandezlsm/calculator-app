@@ -35,6 +35,8 @@ const CalculatorPage = () => {
 
   const calculateProduct = useCallback(() => {
     let initialCalculation: any = [] as ProductTableTypes[];
+
+
     for (let i = 0; i < duration; i++) {
       initialCalculation.push({
         principal: principal,
@@ -42,7 +44,11 @@ const CalculatorPage = () => {
         totalRepayment: (i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit : (amount / 100) * revolvingCredit) + principal,
       })
     }
+
     setProductData(initialCalculation);
+
+
+
     setTotalRow({
       totalPrincipal: initialCalculation.map((x: ProductTableTypes) => x.principal).reduce((total: number, amount: number) => {
         return total + amount
@@ -65,6 +71,15 @@ const CalculatorPage = () => {
     }
   }, [amount, duration, revolvingCredit, principal, calculateProduct])
 
+  const newGeneralData = data.productsData.map(x => {
+    return {
+      ...x,
+      productData
+    }
+  });
+
+  console.log('newGeneralData', newGeneralData)
+
   return (
     <Container>
       <Row>
@@ -84,7 +99,7 @@ const CalculatorPage = () => {
         })}
       </Row>
       <Row>
-        {data.productsData.map((loan: ProductTypes, index: number) => {
+        {newGeneralData.map((loan: ProductTypes, index: number) => {
           return (
             <ProductTable
               productField={loan.formData}

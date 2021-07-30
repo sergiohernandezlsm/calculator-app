@@ -9,6 +9,7 @@ export interface FieldTypes {
 
 export interface ProductTypes {
   title: string;
+  name: string;
   formData: FieldTypes;
 }
 
@@ -23,4 +24,5 @@ export interface ProductTableTypes {
   principal: number;
   interest: number;
   totalRepayment: number;
+  creditName: string;
 }

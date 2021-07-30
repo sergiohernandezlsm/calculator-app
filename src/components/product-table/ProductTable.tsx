@@ -34,7 +34,7 @@ const ProductTable: React.FC<Props> = (props) => {
               </tr>
             </thead>
             <tbody>
-              {props.productData.map((product: any, index: number) => {
+              {props.productData && props.productData.map((product: any, index: number) => {
                 return (
                   <tr key={`key-${index}`} className={styles.textStyle}>
                     <td>30/06/2019</td>
