@@ -57,7 +57,6 @@ const CalculatorPage = () => {
       })
     }
     setBusinessCreditData(initialCalculation);
-    console.log(initialCalculation)
     setTotalBusinessCredict(getTotals(initialCalculation));
   }, [amount, buninessCredit.value, duration, principal])
 
