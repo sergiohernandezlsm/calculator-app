@@ -33,44 +33,48 @@ const CalculatorPage = () => {
     dispatchValues(e, 'buninessCredit');
   }
 
-  const calculateRevolvingCredit = useCallback(() => {
-    let initialCalculation: any = [] as ProductTableTypes[];
-    for (let i = 0; i < duration; i++) {
-      initialCalculation.push({
-        principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        interest: (i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * revolvingCredit.value : (amount / 100) * revolvingCredit.value) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      })
-    }
-    setRevolvingCreditData(initialCalculation);
-    setTotalRevolvingCredit(getTotals(initialCalculation));
-  }, [amount, duration, principal, revolvingCredit.value])
+  const calculateRevolvingCredit = useCallback((creditName) => {
 
-  const calculateBusinessCredit = useCallback(() => {
-    let initialCalculation: any = [] as ProductTableTypes[];
-    const upFrontPayment = amount * 0.1;
-    for (let i = 0; i < duration; i++) {
-      initialCalculation.push({
-        principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        interest: (i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * buninessCredit.value : ((amount / 100) * buninessCredit.value) + upFrontPayment) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      })
+
+    const calculatorTable = (creditValue: any, upFrontPayment: any = 0) => {
+      let initialCalculation: any = [] as ProductTableTypes[];
+      for (let i = 0; i < duration; i++) {
+        initialCalculation.push({
+          principal: principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          interest: (i !== 0 ? ((amount - (principal * i)) / 100) * creditValue : ((amount / 100) * creditValue) + upFrontPayment).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          totalRepayment: ((i !== 0 ? ((amount - (principal * i)) / 100) * creditValue : ((amount / 100) * creditValue) + upFrontPayment) + principal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        })
+      }
+      return initialCalculation;
     }
-    setBusinessCreditData(initialCalculation);
-    setTotalBusinessCredict(getTotals(initialCalculation));
-  }, [amount, buninessCredit.value, duration, principal])
+
+
+    if (creditName === 'revolvingCredit') {
+      setRevolvingCreditData(calculatorTable(revolvingCredit.value));
+      setTotalRevolvingCredit(getTotals(calculatorTable(revolvingCredit.value)));
+    }
+
+    if (creditName === 'buninessCredit') {
+      const upFrontPayment = amount * 0.1;
+      setBusinessCreditData(calculatorTable(buninessCredit.value, upFrontPayment));
+      setTotalBusinessCredict(getTotals(calculatorTable(buninessCredit.value, upFrontPayment)));
+    }
+
+  }, [amount, buninessCredit.value, duration, principal, revolvingCredit.value])
 
   useEffect(() => {
     if (amount !== 0 && duration !== 0) {
       setPrincipal(amount / duration);
     }
-    if (principal !== 0 && revolvingCredit.value !== 0) {
-      calculateRevolvingCredit();
+    if (principal !== 0) {
+      if (revolvingCredit.value !== 0) {
+        calculateRevolvingCredit(revolvingCredit.name)
+      }
+      if (buninessCredit.value !== 0) {
+        calculateRevolvingCredit(buninessCredit.name)
+      }
     }
-    if (principal !== 0 && buninessCredit.value !== 0) {
-      calculateBusinessCredit();
-    }
-  }, [amount, buninessCredit.value, calculateBusinessCredit, calculateRevolvingCredit, duration, principal, revolvingCredit.value])
+  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateRevolvingCredit])
 
   const newGeneralData = data.productsData.map(x => {
     if (x.name === 'revolvingCredit') {

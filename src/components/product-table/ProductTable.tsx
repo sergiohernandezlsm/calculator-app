@@ -33,7 +33,7 @@ const ProductTable: React.FC<Props> = (props) => {
               <tr className={styles.textStyle}>
                 <th>Repayment date</th>
                 <th>Principal</th>
-                <th>Interes</th>
+                <th>Interest</th>
                 <th>Total repayment</th>
               </tr>
             </thead>
