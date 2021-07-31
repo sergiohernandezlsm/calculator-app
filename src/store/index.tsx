@@ -2,15 +2,18 @@ import { Action } from 'redux';
 import { createStore } from 'redux';
 import { StateTypes } from '../types';
 
-const initialState: StateTypes = {
+export const initialState: StateTypes = {
   amount: 0,
   duration: 0,
   revolvingCredit: { value: 0, name: 'revolvingCredit' },
   buninessCredit: { value: 0, name: 'buninessCredit' }
 };
 
-const calculatorReducer = (state: StateTypes = initialState, action: Action | any): StateTypes => {
+export const calculatorReducer = (state: StateTypes = initialState, action: Action | any): StateTypes => {
+  console.log('test', action.type);
   if (action.type === 'amount') {
+    console.log('action.payload => ', action.payload)
+    console.log('state => ', state)
     return {
       ...state,
       amount: action.payload,

@@ -1,6 +1,5 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import CalculatorPage from './CalculatorPage';
 
 const mockDispatch = jest.fn();
@@ -37,7 +36,10 @@ describe('Calculator Page Component', () => {
   });
 
   it('to have been call dispatch', () => {
-    const wrapper = shallow(<CalculatorPage />);
+    const wrapper = mount(<CalculatorPage />);
+    const formInput = wrapper.find('[name="amount"]');
+    const input = formInput.find('.inputStyles').at(0);
+    input.simulate('change', 50);
     expect(mockDispatch).toHaveBeenCalledTimes(1);
   });
 });
