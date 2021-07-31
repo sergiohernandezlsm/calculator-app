@@ -5,7 +5,7 @@ const props: Props = {
   name: 'string',
   placeholder: 'string',
   text: 'string',
-  calculatorHandler: (x: any) => { },
+  inputOnChangeHandler: (x: any) => { },
 }
 
 describe('FormInput Component', () => {

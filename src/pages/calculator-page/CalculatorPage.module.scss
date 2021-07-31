@@ -1,3 +1,18 @@
-.works {
-  background-color: red;
+@import '../../assets/base/global.scss';
+
+.mainWrapper {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  @media only screen and (max-width:767px) {
+    padding-top: 40px;
+  }
+  h1 {
+    font-size: 34px;
+    font-weight: 600;
+    color: $primary-color;
+    font-family: "ubuntubold", sans-serif;
+    @include underline-text;
+  }
 }

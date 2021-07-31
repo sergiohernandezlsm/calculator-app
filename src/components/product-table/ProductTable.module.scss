@@ -1,17 +1,39 @@
+@import '../../assets/base/global.scss';
+
 .productTableWrapper {
-  // box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.1);
-  // -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.1);
-  // -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.1);
-  .textStyle {
-    th, td {
-      @media only screen and (min-width:768px) and (max-width:991px) { 
-        font-size: 14px;
+  h3 {
+    color: $primary-color;
+    font-weight: 500;
+    font-family: "ubuntubold", sans-serif;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    @include underline-text;
+  }
+  .tableStyles {
+    background-color: $white;
+    .textStyle {
+      table {
+        background-color: #fff;
+        border-radius: 8px;
+        border: none;
       }
-      @media only screen and (min-width:481px) and (max-width:767px) { 
-        font-size: 14px;
+      th, td {
+        color: $table-text-color;
+        font-family: "ubunturegular", sans-serif;
+        @media only screen and (min-width:768px) and (max-width:991px) { 
+          font-size: 14px;
+        }
+        @media only screen and (min-width:481px) and (max-width:767px) { 
+          font-size: 14px;
+        }
+        @media only screen and (max-width:480px) { 
+          font-size: 12px;
+        }
       }
-      @media only screen and (max-width:480px) { 
-        font-size: 12px;
+    }
+    .totalStyle {
+      td {
+        font-family: "ubuntumedium", sans-serif;
       }
     }
   }

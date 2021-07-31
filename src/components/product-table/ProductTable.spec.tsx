@@ -5,7 +5,7 @@ const props: Props = {
   title: 'test title',
   id: 1,
   productField: [],
-  calculatorHandler: (x: any) => { },
+  inputOnChangeHandler: (x: any) => { },
 }
 
 describe('ProductTable Component', () => {

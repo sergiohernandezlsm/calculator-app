@@ -9,7 +9,7 @@ export interface FieldTypes {
 
 export interface ProductTypes {
   title: string;
-  name: string;
+  creditName: string;
   productData: ProductTableTypes[];
   formData: FieldTypes;
   totalRow?: {
@@ -33,6 +33,7 @@ export interface StateTypes {
 }
 
 export interface ProductTableTypes {
+  paymentDate: any;
   principal?: number;
   interest?: number;
   totalRepayment?: number;

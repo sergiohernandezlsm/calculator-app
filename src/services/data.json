@@ -2,7 +2,7 @@
   "productsData": [
     {
       "title": "Revolving Credit Facility",
-      "name": "revolvingCredit",
+      "creditName": "revolvingCredit",
       "formData": {
         "name": "revolvingCredit",
         "placeholder": "Rate",
@@ -14,7 +14,7 @@
     },
     {
       "title": "Buniness loan",
-      "name": "buninessCredit",
+      "creditName": "buninessCredit",
       "formData": {
         "name": "buninessCredit",
         "placeholder": "Rate",

@@ -1,0 +1,19 @@
+@import '../../assets/base/global.scss';
+
+.inputWrapper {
+  .title {
+    color: $secondary-color;
+    font-weight: 500;
+    font-family: "ubuntubold", sans-serif;
+  }
+  .extraText {
+    color: $secondary-color;
+    font-weight: 500;
+    font-family: "ubuntubold", sans-serif;
+    font-size: 15px;
+  }
+  .inputStyles {
+    padding: 11px;
+    font-weight: 700;
+  }
+}

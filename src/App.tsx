@@ -1,8 +1,11 @@
 import CalculatorPage from './pages/calculator-page';
+import styles from './App.module.scss';
 
 function App() {
   return (
-    <CalculatorPage />
+    <div className={styles.app}>
+      <CalculatorPage />
+    </div>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ProductTypes, FieldTypes, StateTypes } from '../../types';
+import styles from './CalculatorPage.module.scss';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
@@ -20,17 +21,17 @@ const CalculatorPage = () => {
   const buninessCredit = useSelector((state: StateTypes) => state.buninessCredit);
   const dispatch = useDispatch();
 
-  const dispatchValues = (e: React.ChangeEvent<HTMLInputElement>, reference: string) => {
+  const dispatchInputValues = (e: React.ChangeEvent<HTMLInputElement>, reference: string) => {
     if (e.target.name === reference) {
       dispatch({ type: reference, payload: +e.target.value });
     }
   }
 
-  const calculatorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatchValues(e, 'amount');
-    dispatchValues(e, 'duration');
-    dispatchValues(e, 'revolvingCredit');
-    dispatchValues(e, 'buninessCredit');
+  const inputOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatchInputValues(e, 'amount');
+    dispatchInputValues(e, 'duration');
+    dispatchInputValues(e, 'revolvingCredit');
+    dispatchInputValues(e, 'buninessCredit');
   }
 
   const calculateCredits = useCallback((creditName) => {
@@ -62,7 +63,7 @@ const CalculatorPage = () => {
   }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits])
 
   const creditsData = data.productsData.map(product => {
-    switch (product.name) {
+    switch (product.creditName) {
       case 'revolvingCredit':
         return {
           ...product,
@@ -86,37 +87,40 @@ const CalculatorPage = () => {
 
   return (
     <Container>
-      <Row>
-        {data.formFields.map((field: FieldTypes, index: number) => {
-          return (
-            <FormInput
-              key={`key-${index}`}
-              placeholder={field.placeholder}
-              name={field.name}
-              text={field.text}
-              label={field.label}
-              min={0}
-              max={100}
-              calculatorHandler={calculatorHandler}
-            />
-          )
-        })}
-      </Row>
-      <Row>
-        {creditsData.map((loan: ProductTypes, index: number) => {
-          return (
-            <ProductTable
-              productField={loan.formData}
-              calculatorHandler={calculatorHandler}
-              title={loan.title}
-              key={`key-${index}`}
-              id={index}
-              productData={loan.productData}
-              totalRow={loan?.totalRow}
-            />
-          );
-        })}
-      </Row>
+      <main className={styles.mainWrapper}>
+        <h1>Loan Calculator</h1>
+        <Row>
+          {data.formFields.map((field: FieldTypes, index: number) => {
+            return (
+              <FormInput
+                key={`key-${index}`}
+                placeholder={field.placeholder}
+                name={field.name}
+                text={field.text}
+                label={field.label}
+                min={0}
+                max={100}
+                inputOnChangeHandler={inputOnChangeHandler}
+              />
+            )
+          })}
+        </Row>
+        <Row>
+          {creditsData.map((loan: ProductTypes, index: number) => {
+            return (
+              <ProductTable
+                productField={loan.formData}
+                inputOnChangeHandler={inputOnChangeHandler}
+                title={loan.title}
+                key={`key-${index}`}
+                id={index}
+                productData={loan.productData}
+                totalRow={loan?.totalRow}
+              />
+            );
+          })}
+        </Row>
+      </main>
     </Container>
   )
 };
