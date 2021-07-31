@@ -2,16 +2,16 @@ import React from 'react';
 import styles from './Table.module.scss';
 
 export interface Props {
-  id: number;
   paymentDate: any;
   principal?: number;
   interest?: number;
   totalRepayment?: number;
+  extraClass?: string;
 }
 
 const TableComponent: React.FC<Props> = (props) => {
   return (
-    <tr key={`key-${props.id}`} className={styles.textStyle}>
+    <tr className={`${styles.textStyle} ${props.extraClass && styles.totalStyle}`}>
       <td>{props.paymentDate}</td>
       <td>{`£${props.principal}`}</td>
       <td>{`£${props.interest}`}</td>

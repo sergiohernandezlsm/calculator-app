@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import TableComponent from './table';
 import styles from './ProductTable.module.scss';
 
-
 export interface Props {
   title: string;
   id: number;
@@ -53,7 +52,6 @@ const ProductTable: React.FC<Props> = (props) => {
               {props.productData && props.productData.map((product: ProductTableTypes, index: number) => {
                 return (
                   <TableComponent
-                    id={index}
                     key={`key-${index}`}
                     paymentDate={product.paymentDate}
                     principal={product.principal}
@@ -62,12 +60,13 @@ const ProductTable: React.FC<Props> = (props) => {
                   />
                 )
               })}
-              <tr className={`${styles.textStyle} ${styles.totalStyle}`}>
-                <td>Total</td>
-                <td>{`£${props.totalRow?.totalPrincipal}` || 0}</td>
-                <td>{`£${props.totalRow?.totalInterest}` || 0}</td>
-                <td>{`£${props.totalRow?.totalRepayment}` || 0}</td>
-              </tr>
+              <TableComponent
+                paymentDate="Total"
+                principal={props.totalRow?.totalPrincipal}
+                interest={props.totalRow?.totalInterest}
+                totalRepayment={props.totalRow?.totalRepayment}
+                extraClass="totalStyle"
+              />
             </tbody>
           </Table>
         </div>
