@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Table.module.scss';
 
 export interface Props {
-  paymentDate: any;
+  paymentDate: string;
   principal?: number;
   interest?: number;
   totalRepayment?: number;

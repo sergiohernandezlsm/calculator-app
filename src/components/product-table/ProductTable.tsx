@@ -24,20 +24,15 @@ const ProductTable: React.FC<Props> = (props) => {
     <Col xs={12} md={6}>
       <div className={styles.productTableWrapper}>
         <h3>{props.title}</h3>
-        {[props.productField].map((field: FieldTypes, index: number) => {
-          return (
-            <FormInput
-              key={`key-${index}`}
-              placeholder={field.placeholder}
-              name={field.name}
-              text={field.text}
-              label={field.label}
-              min={0}
-              max={100}
-              inputOnChangeHandler={props.inputOnChangeHandler}
-            />
-          )
-        })}
+        <FormInput
+          placeholder={props.productField.placeholder}
+          name={props.productField.name}
+          text={props.productField.text}
+          label={props.productField.label}
+          min={0}
+          max={100}
+          inputOnChangeHandler={props.inputOnChangeHandler}
+        />
         <div className={styles.tableWrapper}>
           <Table striped bordered hover className={styles.tableStyles}>
             <thead>

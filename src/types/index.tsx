@@ -30,10 +30,12 @@ export interface StateTypes {
     value: number;
     name: string;
   };
+  credits: ProductTypes[];
+  requestForm: FieldTypes[];
 }
 
 export interface ProductTableTypes {
-  paymentDate: any;
+  paymentDate: string;
   principal?: number;
   interest?: number;
   totalRepayment?: number;

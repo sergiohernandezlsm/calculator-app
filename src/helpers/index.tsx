@@ -2,7 +2,7 @@ import moment from 'moment';
 import 'moment/locale/en-gb';
 import { ProductTableTypes } from '../types';
 
-const calculateTotal = (value: any) => {
+export const calculateTotal = (value: any) => {
   return value.reduce((total: number, amount: string) => {
     const toNumber = +amount.replace(/,/g, '');
     return total + toNumber;
@@ -19,7 +19,6 @@ export const getTotals = (initialCalculation: any) => {
 
 export const calculatorTable = (creditValue: number, upFrontPayment: number = 0, durationValue: number, principalValue: number, amountValue: number) => {
   let initialCalculation: any = [] as ProductTableTypes[];
-
   for (let i = 0; i < durationValue; i++) {
     initialCalculation.push({
       paymentDate: moment().add(i + 1, 'months').calendar(),

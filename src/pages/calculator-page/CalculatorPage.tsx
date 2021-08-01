@@ -19,8 +19,9 @@ const CalculatorPage = () => {
   const duration = useSelector((state: StateTypes) => state.duration);
   const revolvingCredit = useSelector((state: StateTypes) => state.revolvingCredit);
   const buninessCredit = useSelector((state: StateTypes) => state.buninessCredit);
+  const credits = useSelector((state: StateTypes) => state.credits);
+  const requestForm = useSelector((state: StateTypes) => state.requestForm);
   const dispatch = useDispatch();
-
   const dispatchInputValues = (e: React.ChangeEvent<HTMLInputElement>, reference: string) => {
     if (e.target.name === reference) {
       dispatch({ type: reference, payload: +e.target.value });
@@ -49,6 +50,8 @@ const CalculatorPage = () => {
   }, [amount, duration, principal, revolvingCredit.value, buninessCredit.value])
 
   useEffect(() => {
+    dispatch({ type: 'creditsData', payload: data.productsData })
+    dispatch({ type: 'requestForm', payload: data.formFields })
     if (amount !== 0 && duration !== 0) {
       setPrincipal(amount / duration);
     }
@@ -60,9 +63,9 @@ const CalculatorPage = () => {
         calculateCredits(buninessCredit.name)
       }
     }
-  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits])
+  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits, dispatch])
 
-  const creditsData = data.productsData.map(product => {
+  const creditsData = credits.map((product: ProductTypes) => {
     switch (product.creditName) {
       case 'revolvingCredit':
         return {
@@ -90,7 +93,7 @@ const CalculatorPage = () => {
       <main className={styles.mainWrapper}>
         <h1>Loan Calculator</h1>
         <Row>
-          {data.formFields.map((field: FieldTypes, index: number) => {
+          {requestForm.map((field: FieldTypes, index: number) => {
             return (
               <FormInput
                 key={`key-${index}`}

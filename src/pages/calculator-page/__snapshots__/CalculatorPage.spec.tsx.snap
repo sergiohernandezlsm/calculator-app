@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Calculator Page Component renders <CalculatorPage /> component 1`] = `ShallowWrapper {}`;
+
+exports[`Calculator Page Component renders with defult data 1`] = `ShallowWrapper {}`;
