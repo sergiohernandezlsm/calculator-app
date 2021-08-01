@@ -3,8 +3,6 @@ export interface FieldTypes {
   placeholder: string;
   text: string;
   label: string;
-  min: number;
-  max: number;
 }
 
 export interface ProductTypes {
@@ -26,7 +24,7 @@ export interface StateTypes {
     value: number;
     name: string;
   };
-  buninessCredit: {
+  businessCredit: {
     value: number;
     name: string;
   };

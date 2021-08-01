@@ -1,15 +1,14 @@
 import { shallow } from 'enzyme';
 import FormInput, { Props } from './FormInput';
+import faker from 'faker';
 
 const mockInputOnChangeHandler = jest.fn();
 
 const props: Props = {
   name: 'inputName',
-  placeholder: 'string',
-  text: 'string',
-  label: 'string',
-  min: 1,
-  max: 10,
+  placeholder: faker.lorem.word(),
+  text: faker.lorem.word(),
+  label: faker.lorem.word(),
   inputOnChangeHandler: mockInputOnChangeHandler,
 }
 
@@ -19,7 +18,7 @@ describe('FormInput Component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should onChange', () => {
+  it('should get value onChange', () => {
     const wrapper = shallow(<FormInput {...props} />);
     const input = wrapper.find('.inputStyles');
     input.simulate('change', { value: 50 });

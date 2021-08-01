@@ -5,7 +5,7 @@ const mockInitialState: StateTypes = {
   amount: 0,
   duration: 0,
   revolvingCredit: { value: 0, name: 'revolvingCredit' },
-  buninessCredit: { value: 0, name: 'buninessCredit' },
+  businessCredit: { value: 0, name: 'businessCredit' },
   credits: [],
   requestForm: [],
 };
@@ -47,12 +47,12 @@ describe('testing store', () => {
     });
   });
 
-  it('should return updating buninessCredit state', () => {
-    const testState = calculatorReducer(mockInitialState, { type: 'buninessCredit', payload: { buninessCredit: { name: 'buninessCredit', value: 10 } } });
+  it('should return updating businessCredit state', () => {
+    const testState = calculatorReducer(mockInitialState, { type: 'businessCredit', payload: { businessCredit: { name: 'businessCredit', value: 10 } } });
     expect(testState).toEqual({
-      ...mockInitialState, buninessCredit: {
-        name: 'buninessCredit', value: {
-          buninessCredit: { name: 'buninessCredit', value: 10 }
+      ...mockInitialState, businessCredit: {
+        name: 'businessCredit', value: {
+          businessCredit: { name: 'businessCredit', value: 10 }
         }
       }
     });

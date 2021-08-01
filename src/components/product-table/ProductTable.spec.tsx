@@ -1,19 +1,25 @@
 import { shallow } from 'enzyme';
 import ProductTable, { Props } from './ProductTable';
+import faker from 'faker';
 
 const mockInputOnChangeHandler = jest.fn();
 const props: Props = {
-  title: 'test title',
+  title: faker.lorem.word(),
   id: 1,
   productField: {
-    name: 'string',
-    placeholder: 'string',
-    text: 'string',
-    label: 'string',
-    min: 1,
-    max: 1,
+    name: faker.lorem.word(),
+    placeholder: faker.lorem.word(),
+    text: faker.lorem.word(),
+    label: faker.lorem.word(),
   },
-  productData: [],
+  productData: [
+    {
+      paymentDate: '01/09/2021',
+      principal: 2500,
+      interest: 3,
+      totalRepayment: 2800
+    }
+  ],
   totalRow: {
     totalPrincipal: 1,
     totalInterest: 1,

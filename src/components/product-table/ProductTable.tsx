@@ -29,8 +29,6 @@ const ProductTable: React.FC<Props> = (props) => {
           name={props.productField.name}
           text={props.productField.text}
           label={props.productField.label}
-          min={0}
-          max={100}
           inputOnChangeHandler={props.inputOnChangeHandler}
         />
         <div className={styles.tableWrapper}>

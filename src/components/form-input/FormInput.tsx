@@ -9,8 +9,6 @@ export interface Props {
   placeholder: string;
   text: string;
   label: string;
-  min: number;
-  max: number;
   inputOnChangeHandler: (x: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -32,8 +30,8 @@ const FormInput: React.FC<Props> = (props) => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.inputOnChangeHandler(e)}
             type="number"
             placeholder={props.placeholder}
-            min={props.min}
-            max={props.max}
+            min={0}
+            max={200000}
           />
         </Col>
         <Col xs={4}>

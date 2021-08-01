@@ -14,9 +14,9 @@ const mockDefaultData = {
     value: faker.datatype.number(),
     name: 'revolvingCredit'
   },
-  buninessCredit: {
+  businessCredit: {
     value: faker.datatype.number(),
-    name: 'buninessCredit'
+    name: 'businessCredit'
   },
   amount: 10000,
   duration: 6,
@@ -28,7 +28,7 @@ const mockDefaultData = {
     },
     {
       title: faker.lorem.words(3),
-      creditName: "buninessCredit",
+      creditName: "businessCredit",
       formData: {}
     }
   ],
@@ -36,17 +36,13 @@ const mockDefaultData = {
     name: "amount",
     placeholder: faker.lorem.word(),
     text: "(in £)",
-    label: faker.lorem.word(),
-    min: 0,
-    max: 60000
+    label: faker.lorem.word()
   },
   {
     name: "duration",
     placeholder: faker.lorem.word(),
     text: "(in months)",
-    label: faker.lorem.word(),
-    min: 0,
-    max: 60
+    label: faker.lorem.word()
   }]
 }
 

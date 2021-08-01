@@ -18,7 +18,7 @@ const CalculatorPage = () => {
   const amount = useSelector((state: StateTypes) => state.amount);
   const duration = useSelector((state: StateTypes) => state.duration);
   const revolvingCredit = useSelector((state: StateTypes) => state.revolvingCredit);
-  const buninessCredit = useSelector((state: StateTypes) => state.buninessCredit);
+  const businessCredit = useSelector((state: StateTypes) => state.businessCredit);
   const credits = useSelector((state: StateTypes) => state.credits);
   const requestForm = useSelector((state: StateTypes) => state.requestForm);
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const CalculatorPage = () => {
     dispatchInputValues(e, 'amount');
     dispatchInputValues(e, 'duration');
     dispatchInputValues(e, 'revolvingCredit');
-    dispatchInputValues(e, 'buninessCredit');
+    dispatchInputValues(e, 'businessCredit');
   }
 
   const calculateCredits = useCallback((creditName) => {
@@ -41,13 +41,13 @@ const CalculatorPage = () => {
       setTotalRevolvingCredit(getTotals(calculatorTable(revolvingCredit.value, 0, duration, principal, amount)));
     }
 
-    if (creditName === 'buninessCredit') {
+    if (creditName === 'businessCredit') {
       const upFrontPayment = amount * 0.1;
-      setBusinessCreditData(calculatorTable(buninessCredit.value, upFrontPayment, duration, principal, amount));
-      setTotalBusinessCredict(getTotals(calculatorTable(buninessCredit.value, upFrontPayment, duration, principal, amount)));
+      setBusinessCreditData(calculatorTable(businessCredit.value, upFrontPayment, duration, principal, amount));
+      setTotalBusinessCredict(getTotals(calculatorTable(businessCredit.value, upFrontPayment, duration, principal, amount)));
     }
 
-  }, [amount, duration, principal, revolvingCredit.value, buninessCredit.value])
+  }, [amount, duration, principal, revolvingCredit.value, businessCredit.value])
 
   useEffect(() => {
     dispatch({ type: 'creditsData', payload: data.productsData })
@@ -59,11 +59,11 @@ const CalculatorPage = () => {
       if (revolvingCredit.value !== 0) {
         calculateCredits(revolvingCredit.name)
       }
-      if (buninessCredit.value !== 0) {
-        calculateCredits(buninessCredit.name)
+      if (businessCredit.value !== 0) {
+        calculateCredits(businessCredit.name)
       }
     }
-  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits, dispatch])
+  }, [amount, duration, principal, businessCredit.name, revolvingCredit.name, businessCredit.value, revolvingCredit.value, calculateCredits, dispatch])
 
   const creditsData = credits.map((product: ProductTypes) => {
     switch (product.creditName) {
@@ -73,7 +73,7 @@ const CalculatorPage = () => {
           productData: revolvingCreditData,
           totalRow: totalRevolvingCredit
         }
-      case 'buninessCredit':
+      case 'businessCredit':
         return {
           ...product,
           productData: businessCreditData,
@@ -101,8 +101,6 @@ const CalculatorPage = () => {
                 name={field.name}
                 text={field.text}
                 label={field.label}
-                min={0}
-                max={100}
                 inputOnChangeHandler={inputOnChangeHandler}
               />
             )

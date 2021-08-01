@@ -5,42 +5,34 @@
       "creditName": "revolvingCredit",
       "formData": {
         "name": "revolvingCredit",
-        "placeholder": "Rate",
-        "text": "(in %)",
-        "label": "Interest rate",
-        "min": 1,
-        "max": 100
+        "placeholder": "Enter Rate",
+        "text": "(%)",
+        "label": "Interest rate"
       }
     },
     {
-      "title": "Buniness loan",
-      "creditName": "buninessCredit",
+      "title": "Business loan",
+      "creditName": "businessCredit",
       "formData": {
-        "name": "buninessCredit",
-        "placeholder": "Rate",
-        "text": "(in %)",
-        "label": "Interest rate",
-        "min": 1,
-        "max": 100
+        "name": "businessCredit",
+        "placeholder": "Enter Rate",
+        "text": "(%)",
+        "label": "Interest rate"
       }
     }
   ],
   "formFields": [
     {
       "name": "amount",
-      "placeholder": "Amount",
-      "text": "(in £)",
-      "label": "Amount requested",
-      "min": 0,
-      "max": 60000
+      "placeholder": "Enter amount",
+      "text": "(£)",
+      "label": "Amount to borrow"
     },
     {
       "name": "duration",
-      "placeholder": "Duration",
-      "text": "(in months)",
-      "label": "Duration",
-      "min": 0,
-      "max": 60
+      "placeholder": "Enter duration",
+      "text": "(Months)",
+      "label": "Loan duration"
     }
   ]
 }

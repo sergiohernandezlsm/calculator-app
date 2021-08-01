@@ -8,7 +8,7 @@ const initialState: StateTypes = {
   amount: 0,
   duration: 0,
   revolvingCredit: { value: 0, name: 'revolvingCredit' },
-  buninessCredit: { value: 0, name: 'buninessCredit' }
+  businessCredit: { value: 0, name: 'businessCredit' }
 };
 
 export const calculatorReducer = (state: StateTypes = initialState, action: Action | any): StateTypes => {
@@ -45,12 +45,12 @@ export const calculatorReducer = (state: StateTypes = initialState, action: Acti
       },
     };
   }
-  if (action.type === 'buninessCredit') {
+  if (action.type === 'businessCredit') {
     return {
       ...state,
-      buninessCredit: {
+      businessCredit: {
         value: action.payload,
-        name: 'buninessCredit'
+        name: 'businessCredit'
       },
     };
   }
