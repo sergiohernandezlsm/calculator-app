@@ -11,6 +11,7 @@ export interface Props {
   label: string;
   min: number;
   max: number;
+  disabled?: boolean;
   inputOnChangeHandler: (x: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -27,6 +28,7 @@ const FormInput: React.FC<Props> = (props) => {
       <Row>
         <Col xs={8}>
           <Form.Control
+            disabled={props.disabled}
             className={styles.inputStyles}
             name={props.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.inputOnChangeHandler(e)}

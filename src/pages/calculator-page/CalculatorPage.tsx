@@ -13,6 +13,8 @@ const CalculatorPage = () => {
   const [principal, setPrincipal] = useState(0);
   const [revolvingCreditData, setRevolvingCreditData] = useState([]);
   const [businessCreditData, setBusinessCreditData] = useState([]);
+  const [allowCredit1, setAllowCredit1] = useState(false);
+  const [allowCredit2, setAllowCredit2] = useState(false);
   const [totalBusinessCredit, setTotalBusinessCredict] = useState({ totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 });
   const [totalRevolvingCredit, setTotalRevolvingCredit] = useState({ totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 });
   const amount = useSelector((state: StateTypes) => state.amount);
@@ -49,21 +51,45 @@ const CalculatorPage = () => {
 
   }, [amount, duration, principal, revolvingCredit.value, buninessCredit.value])
 
+  const enableCredit = useCallback((creditName) => {
+    if (creditName === 'revolvingCredit') {
+      if (amount < 1000 || amount > 150000 || duration < 1 || duration > 12) {
+        setAllowCredit1(true);
+        dispatch({ type: 'revolvingCredit', payload: 0 });
+      } else {
+        setAllowCredit1(false);
+      }
+    }
+    if (creditName === 'buninessCredit') {
+      if (amount < 10000 || amount > 200000 || duration < 1 || duration > 60) {
+        setAllowCredit2(true);
+        dispatch({ type: 'buninessCredit', payload: 0 });
+      } else {
+        setAllowCredit2(false);
+      }
+    }
+  }, [amount, duration])
+
   useEffect(() => {
-    dispatch({ type: 'creditsData', payload: data.productsData })
-    dispatch({ type: 'requestForm', payload: data.formFields })
-    if (amount !== 0 && duration !== 0) {
+    dispatch({ type: 'creditsData', payload: data.productsData });
+    dispatch({ type: 'requestForm', payload: data.formFields });
+    if (amount > 0 && duration > 0) {
       setPrincipal(amount / duration);
+
+    }
+    if (amount >= 0 && duration >= 0) {
+      enableCredit(revolvingCredit.name);
+      enableCredit(buninessCredit.name);
     }
     if (principal !== 0) {
       if (revolvingCredit.value !== 0) {
-        calculateCredits(revolvingCredit.name)
+        calculateCredits(revolvingCredit.name);
       }
       if (buninessCredit.value !== 0) {
-        calculateCredits(buninessCredit.name)
+        calculateCredits(buninessCredit.name);
       }
     }
-  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits, dispatch])
+  }, [amount, duration, principal, buninessCredit.name, revolvingCredit.name, buninessCredit.value, revolvingCredit.value, calculateCredits, dispatch, enableCredit])
 
   const creditsData = credits.map((product: ProductTypes) => {
     switch (product.creditName) {
@@ -71,19 +97,22 @@ const CalculatorPage = () => {
         return {
           ...product,
           productData: revolvingCreditData,
-          totalRow: totalRevolvingCredit
+          totalRow: totalRevolvingCredit,
+          disabledCredit: allowCredit1
         }
       case 'buninessCredit':
         return {
           ...product,
           productData: businessCreditData,
-          totalRow: totalBusinessCredit
+          totalRow: totalBusinessCredit,
+          disabledCredit: allowCredit2,
         }
       default:
         return {
           ...product,
           productData: [],
-          totalRow: {}
+          totalRow: {},
+          disabledCredit: false
         }
     }
   });
@@ -119,6 +148,7 @@ const CalculatorPage = () => {
                 id={index}
                 productData={loan.productData}
                 totalRow={loan?.totalRow}
+                disabledCredit={loan?.disabledCredit}
               />
             );
           })}

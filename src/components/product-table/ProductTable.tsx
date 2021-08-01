@@ -11,6 +11,7 @@ export interface Props {
   id: number;
   productField: FieldTypes;
   productData: ProductTableTypes[];
+  disabledCredit?: boolean;
   totalRow?: {
     totalPrincipal?: number;
     totalInterest?: number;
@@ -25,6 +26,7 @@ const ProductTable: React.FC<Props> = (props) => {
       <div className={styles.productTableWrapper}>
         <h3>{props.title}</h3>
         <FormInput
+          disabled={props.disabledCredit}
           placeholder={props.productField.placeholder}
           name={props.productField.name}
           text={props.productField.text}
@@ -44,7 +46,7 @@ const ProductTable: React.FC<Props> = (props) => {
               </tr>
             </thead>
             <tbody>
-              {props.productData && props.productData.map((product: ProductTableTypes, index: number) => {
+              {!props.disabledCredit && props.productData && props.productData.map((product: ProductTableTypes, index: number) => {
                 return (
                   <TableComponent
                     key={`key-${index}`}
@@ -57,9 +59,9 @@ const ProductTable: React.FC<Props> = (props) => {
               })}
               <TableComponent
                 paymentDate="Total"
-                principal={props.totalRow?.totalPrincipal}
-                interest={props.totalRow?.totalInterest}
-                totalRepayment={props.totalRow?.totalRepayment}
+                principal={props.disabledCredit ? 0 : props.totalRow?.totalPrincipal}
+                interest={props.disabledCredit ? 0 : props.totalRow?.totalInterest}
+                totalRepayment={props.disabledCredit ? 0 : props.totalRow?.totalRepayment}
                 extraClass="totalStyle"
               />
             </tbody>

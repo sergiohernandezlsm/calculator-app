@@ -12,6 +12,7 @@ export interface ProductTypes {
   creditName: string;
   productData: ProductTableTypes[];
   formData: FieldTypes;
+  disabledCredit?: boolean;
   totalRow?: {
     totalPrincipal?: number;
     totalInterest?: number;
