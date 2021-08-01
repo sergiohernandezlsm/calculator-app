@@ -10,7 +10,7 @@ export interface Props {
   title: string;
   id: number;
   productField: FieldTypes;
-  productData: ProductTableTypes[];
+  productData?: ProductTableTypes[];
   totalRow?: {
     totalPrincipal?: number;
     totalInterest?: number;

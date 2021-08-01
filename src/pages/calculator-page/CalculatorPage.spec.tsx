@@ -20,6 +20,7 @@ const mockDefaultData = {
   },
   amount: 10000,
   duration: 6,
+  principal: 100,
   credits: [
     {
       title: faker.lorem.words(3),
@@ -64,7 +65,7 @@ describe('Calculator Page Component', () => {
     const formInput = wrapper.find('[name="amount"]');
     const input = formInput.find('.inputStyles').at(0);
     input.simulate('change', 50);
-    expect(mockDispatch).toHaveBeenCalledTimes(5);
+    expect(mockDispatch).toHaveBeenCalledTimes(4);
   });
 
   it('renders with defult data', () => {

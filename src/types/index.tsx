@@ -8,7 +8,7 @@ export interface FieldTypes {
 export interface ProductTypes {
   title: string;
   creditName: string;
-  productData: ProductTableTypes[];
+  productData?: ProductTableTypes[];
   formData: FieldTypes;
   totalRow?: {
     totalPrincipal?: number;
@@ -20,6 +20,7 @@ export interface ProductTypes {
 export interface StateTypes {
   amount: number;
   duration: number;
+  principal: number;
   revolvingCredit: {
     value: number;
     name: string;

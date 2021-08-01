@@ -1,4 +1,4 @@
-import { calculateTotal, getTotals, calculatorTable } from './';
+import { calculateTotal, getTotals, calculatorTable } from '.';
 
 const mockNumbersAsString = ['1', '2', '3'];
 const mockInitialCalculation = [{
@@ -9,7 +9,7 @@ const mockInitialCalculation = [{
 }];
 
 
-describe('ProductTable Component', () => {
+describe('helpers test', () => {
 
   it('should return sum of total as string', () => {
     const testCalculateTotal = calculateTotal(mockNumbersAsString);

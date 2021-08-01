@@ -7,6 +7,7 @@ const initialState: StateTypes = {
   requestForm: [],
   amount: 0,
   duration: 0,
+  principal: 0,
   revolvingCredit: { value: 0, name: 'revolvingCredit' },
   businessCredit: { value: 0, name: 'businessCredit' }
 };
@@ -22,6 +23,12 @@ export const calculatorReducer = (state: StateTypes = initialState, action: Acti
     return {
       ...state,
       requestForm: action.payload,
+    };
+  }
+  if (action.type === 'principal') {
+    return {
+      ...state,
+      principal: action.payload,
     };
   }
   if (action.type === 'amount') {

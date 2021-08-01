@@ -36,6 +36,11 @@ describe('testing store', () => {
     expect(testState).toEqual({ ...mockInitialState, duration: 10 });
   });
 
+  it('should return updating principal state', () => {
+    const testState = calculatorReducer(mockInitialState, { type: 'principal', payload: 10 });
+    expect(testState).toEqual({ ...mockInitialState, principal: 10 });
+  });
+
   it('should return updating revolvingCredit state', () => {
     const testState = calculatorReducer(mockInitialState, { type: 'revolvingCredit', payload: { revolvingCredit: { name: 'revolvingCredit', value: 10 } } });
     expect(testState).toEqual({

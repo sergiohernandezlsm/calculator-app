@@ -7,77 +7,91 @@ import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
 import FormInput from '../../components/form-input';
 import data from '../../services/data.json';
-import { getTotals, calculatorTable } from '../../helpers';
+import { getTotals, dispatchValues, calculatorTable } from '../../helpers';
 
 const CalculatorPage = () => {
-  const [principal, setPrincipal] = useState(0);
-  const [revolvingCreditData, setRevolvingCreditData] = useState([]);
-  const [businessCreditData, setBusinessCreditData] = useState([]);
-  const [totalBusinessCredit, setTotalBusinessCredict] = useState({ totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 });
-  const [totalRevolvingCredit, setTotalRevolvingCredit] = useState({ totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 });
+  const dispatch = useDispatch();
   const amount = useSelector((state: StateTypes) => state.amount);
   const duration = useSelector((state: StateTypes) => state.duration);
   const revolvingCredit = useSelector((state: StateTypes) => state.revolvingCredit);
   const businessCredit = useSelector((state: StateTypes) => state.businessCredit);
-  const credits = useSelector((state: StateTypes) => state.credits);
+  const initialCreditsData = useSelector((state: StateTypes) => state.credits);
   const requestForm = useSelector((state: StateTypes) => state.requestForm);
-  const dispatch = useDispatch();
-  const dispatchInputValues = (e: React.ChangeEvent<HTMLInputElement>, reference: string) => {
-    if (e.target.name === reference) {
-      dispatch({ type: reference, payload: +e.target.value });
+  const principal = useSelector((state: StateTypes) => state.principal);
+  const [loans, setLoans] = useState({
+    revolving: {
+      productData: [],
+      total: { totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 }
+    },
+    business: {
+      productData: [],
+      total: { totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 }
     }
-  }
+  });
 
   const inputOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatchInputValues(e, 'amount');
-    dispatchInputValues(e, 'duration');
-    dispatchInputValues(e, 'revolvingCredit');
-    dispatchInputValues(e, 'businessCredit');
+    dispatchValues(e, 'amount', dispatch, null);
+    dispatchValues(e, 'duration', dispatch, null);
+    dispatchValues(e, 'revolvingCredit', dispatch, null);
+    dispatchValues(e, 'businessCredit', dispatch, null);
   }
 
   const calculateCredits = useCallback((creditName) => {
     if (creditName === 'revolvingCredit') {
-      setRevolvingCreditData(calculatorTable(revolvingCredit.value, 0, duration, principal, amount));
-      setTotalRevolvingCredit(getTotals(calculatorTable(revolvingCredit.value, 0, duration, principal, amount)));
+      setLoans(prevState => {
+        return {
+          ...prevState,
+          revolving: {
+            productData: calculatorTable(revolvingCredit.value, 0, duration, principal, amount),
+            total: getTotals(calculatorTable(revolvingCredit.value, 0, duration, principal, amount))
+          }
+        }
+      });
     }
-
     if (creditName === 'businessCredit') {
       const upFrontPayment = amount * 0.1;
-      setBusinessCreditData(calculatorTable(businessCredit.value, upFrontPayment, duration, principal, amount));
-      setTotalBusinessCredict(getTotals(calculatorTable(businessCredit.value, upFrontPayment, duration, principal, amount)));
+      setLoans(prevState => {
+        return {
+          ...prevState,
+          business: {
+            productData: calculatorTable(businessCredit.value, upFrontPayment, duration, principal, amount),
+            total: getTotals(calculatorTable(businessCredit.value, upFrontPayment, duration, principal, amount))
+          }
+        }
+      });
     }
 
-  }, [amount, duration, principal, revolvingCredit.value, businessCredit.value])
+  }, [revolvingCredit.value, duration, principal, amount, businessCredit.value])
 
   useEffect(() => {
-    dispatch({ type: 'creditsData', payload: data.productsData })
-    dispatch({ type: 'requestForm', payload: data.formFields })
+    dispatchValues(null, 'creditsData', dispatch, data.productsData)
+    dispatchValues(null, 'requestForm', dispatch, data.formFields)
     if (amount !== 0 && duration !== 0) {
-      setPrincipal(amount / duration);
+      dispatchValues(null, 'principal', dispatch, amount / duration)
     }
     if (principal !== 0) {
       if (revolvingCredit.value !== 0) {
-        calculateCredits(revolvingCredit.name)
+        calculateCredits(revolvingCredit.name);
       }
       if (businessCredit.value !== 0) {
-        calculateCredits(businessCredit.name)
+        calculateCredits(businessCredit.name);
       }
     }
   }, [amount, duration, principal, businessCredit.name, revolvingCredit.name, businessCredit.value, revolvingCredit.value, calculateCredits, dispatch])
 
-  const creditsData = credits.map((product: ProductTypes) => {
+  const creditsData = initialCreditsData.map((product: ProductTypes) => {
     switch (product.creditName) {
       case 'revolvingCredit':
         return {
           ...product,
-          productData: revolvingCreditData,
-          totalRow: totalRevolvingCredit
+          productData: loans.revolving.productData,
+          totalRow: loans.revolving.total
         }
       case 'businessCredit':
         return {
           ...product,
-          productData: businessCreditData,
-          totalRow: totalBusinessCredit
+          productData: loans.business.productData,
+          totalRow: loans.business.total
         }
       default:
         return {
