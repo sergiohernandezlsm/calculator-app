@@ -17,6 +17,6 @@ For the test I used jest and enzyme. In terms of testing, this is where I want t
 This excercise was fun from the beginning and was a good challenge for me to test my skills. I would really appreciate your honest feedback as I am keen to understand all the areas that I need to work to improve.
 
 What could I do better next time?
-Well, a lot of things but the most important that comes to my mind is probably that I could do action creators for every dispatch and the code would be more readable, safer and also easier to scale.
+Well, a lot of things but the most important that comes to my mind is probably try to rename in better way my variables.
 
 **FRONTEND:** [http://localhost:3000/](http://localhost:3000/)

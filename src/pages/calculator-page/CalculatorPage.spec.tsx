@@ -44,7 +44,20 @@ const mockDefaultData = {
     placeholder: faker.lorem.word(),
     text: "(in months)",
     label: faker.lorem.word()
-  }]
+  },
+  {
+    name: "revolvingCredit",
+    placeholder: faker.lorem.word(),
+    text: "(in £)",
+    label: faker.lorem.word()
+  },
+  {
+    name: "businessCredit",
+    placeholder: faker.lorem.word(),
+    text: "(in £)",
+    label: faker.lorem.word()
+  }
+  ]
 }
 
 describe('Calculator Page Component', () => {
@@ -60,9 +73,31 @@ describe('Calculator Page Component', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('to have been call dispatch', () => {
+  it('to have been call dispatch with "amount" value', () => {
     const wrapper = mount(<CalculatorPage />);
     const formInput = wrapper.find('[name="amount"]');
+    const input = formInput.find('.inputStyles').at(0);
+    input.simulate('change', 50);
+    expect(mockDispatch).toHaveBeenCalledTimes(4);
+  });
+
+  it('to have been call dispatch with "duration" value', () => {
+    const wrapper = mount(<CalculatorPage />);
+    const formInput = wrapper.find('[name="duration"]');
+    const input = formInput.find('.inputStyles').at(1);
+    input.simulate('change', 50);
+    expect(mockDispatch).toHaveBeenCalledTimes(4);
+  });
+  it('to have been call dispatch with "revolvingCredit" value', () => {
+    const wrapper = mount(<CalculatorPage />);
+    const formInput = wrapper.find('[name="revolvingCredit"]');
+    const input = formInput.find('.inputStyles').at(0);
+    input.simulate('change', 50);
+    expect(mockDispatch).toHaveBeenCalledTimes(4);
+  });
+  it('to have been call dispatch with "businessCredit" value', () => {
+    const wrapper = mount(<CalculatorPage />);
+    const formInput = wrapper.find('[name="businessCredit"]');
     const input = formInput.find('.inputStyles').at(0);
     input.simulate('change', 50);
     expect(mockDispatch).toHaveBeenCalledTimes(4);

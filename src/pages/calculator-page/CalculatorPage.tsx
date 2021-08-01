@@ -1,13 +1,22 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ProductTypes, FieldTypes, StateTypes } from '../../types';
+import {
+  setAmount,
+  setDuration,
+  setBusiness,
+  setRevolving,
+  setCreditsData,
+  setRequestForm,
+  setPrincipal
+} from '../../actions';
 import styles from './CalculatorPage.module.scss';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ProductTable from '../../components/product-table';
 import FormInput from '../../components/form-input';
 import data from '../../services/data.json';
-import { getTotals, dispatchValues, calculatorTable } from '../../helpers';
+import { getTotals, calculatorTable } from '../../helpers';
 
 const CalculatorPage = () => {
   const dispatch = useDispatch();
@@ -30,10 +39,18 @@ const CalculatorPage = () => {
   });
 
   const inputOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatchValues(e, 'amount', dispatch, null);
-    dispatchValues(e, 'duration', dispatch, null);
-    dispatchValues(e, 'revolvingCredit', dispatch, null);
-    dispatchValues(e, 'businessCredit', dispatch, null);
+    if (e.target.name === 'amount') {
+      setAmount(dispatch, +e.target.value);
+    }
+    if (e.target.name === 'duration') {
+      setDuration(dispatch, +e.target.value);
+    }
+    if (e.target.name === 'revolvingCredit') {
+      setRevolving(dispatch, +e.target.value);
+    }
+    if (e.target.name === 'businessCredit') {
+      setBusiness(dispatch, +e.target.value);
+    }
   }
 
   const calculateCredits = useCallback((creditName) => {
@@ -64,10 +81,10 @@ const CalculatorPage = () => {
   }, [revolvingCredit.value, duration, principal, amount, businessCredit.value])
 
   useEffect(() => {
-    dispatchValues(null, 'creditsData', dispatch, data.productsData)
-    dispatchValues(null, 'requestForm', dispatch, data.formFields)
+    setCreditsData(dispatch, data.productsData);
+    setRequestForm(dispatch, data.formFields);
     if (amount !== 0 && duration !== 0) {
-      dispatchValues(null, 'principal', dispatch, amount / duration)
+      setPrincipal(dispatch, amount / duration);
     }
     if (principal !== 0) {
       if (revolvingCredit.value !== 0) {

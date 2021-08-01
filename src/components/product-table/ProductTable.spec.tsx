@@ -7,10 +7,10 @@ const props: Props = {
   title: faker.lorem.word(),
   id: 1,
   productField: {
-    name: faker.lorem.word(),
-    placeholder: faker.lorem.word(),
-    text: faker.lorem.word(),
-    label: faker.lorem.word(),
+    name: "revolvingCredit",
+    placeholder: "Enter Rate",
+    text: "(%)",
+    label: "Interest rate"
   },
   productData: [
     {
