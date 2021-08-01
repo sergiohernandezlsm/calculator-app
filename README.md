@@ -1,46 +1,19 @@
-# Getting Started with Create React App
+## Presentation
+This is a simple application to calculate 2 credits. The library used to handle the global state of the application was Redux. We have a complete test coverage that can be run using this command npm run test:coverage
+```
+$ npm run test:coverage
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Design
+The design is clear with a simple layout managed using Sass with a global file to implement basic styles using variables and mixing. The UI is responsive as requested, so will adapt to the different size devices available.
 
-## Available Scripts
+## Technologies
+This application was developed with React and typescript to enjoy more features of es6. The application is dockerized, this wasn't part of the initial request but I believe it's a good practice to do at the beginning if posible.
 
-In the project directory, you can run:
+## Test
+For the test I used jest and enzyme. In terms of testing, this is where I want to learn a lot more because it's really cool. Also in terms of developing I have so much left to improve and keep learning but I am determined and enjoying it.
 
-### `npm start`
+## Feedback
+This excercise was fun from the beginning and was a good challenge for me to test my skills. I would really appreciate your honest feedback as I am keen to understand areas that I need to work to improve.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+**FRONTEND:** [http://localhost:3000/](http://localhost:3000/)
