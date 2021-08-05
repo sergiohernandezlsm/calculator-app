@@ -17,6 +17,7 @@ import ProductTable from '../../components/product-table';
 import FormInput from '../../components/form-input';
 import data from '../../services/data.json';
 import { getTotals, calculatorTable } from '../../helpers';
+import useApiRange from '../../hooks';
 
 const CalculatorPage = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ const CalculatorPage = () => {
   const initialCreditsData = useSelector((state: StateTypes) => state.credits);
   const requestForm = useSelector((state: StateTypes) => state.requestForm);
   const principal = useSelector((state: StateTypes) => state.principal);
+  const range = useSelector((state: StateTypes) => state.range);
+  const { sendRequest } = useApiRange();
+  const [loanRange, setLoanRange] = useState({ revolvingRange: true, businessRange: true })
   const [loans, setLoans] = useState({
     revolving: {
       productData: [],
@@ -37,7 +41,6 @@ const CalculatorPage = () => {
       total: { totalPrincipal: 0, totalInterest: 0, totalRepayment: 0 }
     }
   });
-
   const inputOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'amount') {
       setAmount(dispatch, +e.target.value);
@@ -52,6 +55,39 @@ const CalculatorPage = () => {
       setBusiness(dispatch, +e.target.value);
     }
   }
+
+  const calculateRange = useCallback(() => {
+    if (amount >= range.revolvingCreditFacility?.amountMin && duration >= range.revolvingCreditFacility.durationMin) {
+      setLoanRange(prevState => {
+        return {
+          ...prevState,
+          revolvingRange: false
+        }
+      });
+    } else {
+      setLoanRange(prevState => {
+        return {
+          ...prevState,
+          revolvingRange: true
+        }
+      });
+    }
+    if (amount >= range.businessLoan?.amountMin && duration >= range.businessLoan.durationMin) {
+      setLoanRange(prevState => {
+        return {
+          ...prevState,
+          businessRange: false
+        }
+      });
+    } else {
+      setLoanRange(prevState => {
+        return {
+          ...prevState,
+          businessRange: true
+        }
+      });
+    }
+  }, [amount, duration, range.businessLoan?.amountMin, range.businessLoan?.durationMin, range.revolvingCreditFacility?.amountMin, range.revolvingCreditFacility?.durationMin])
 
   const calculateCredits = useCallback((creditName) => {
     if (creditName === 'revolvingCredit') {
@@ -81,6 +117,8 @@ const CalculatorPage = () => {
   }, [revolvingCredit.value, duration, principal, amount, businessCredit.value])
 
   useEffect(() => {
+    sendRequest();
+    calculateRange();
     setCreditsData(dispatch, data.productsData);
     setRequestForm(dispatch, data.formFields);
     if (amount !== 0 && duration !== 0) {
@@ -94,7 +132,7 @@ const CalculatorPage = () => {
         calculateCredits(businessCredit.name);
       }
     }
-  }, [amount, duration, principal, businessCredit.name, revolvingCredit.name, businessCredit.value, revolvingCredit.value, calculateCredits, dispatch])
+  }, [amount, duration, principal, businessCredit.name, revolvingCredit.name, businessCredit.value, revolvingCredit.value, calculateCredits, dispatch, sendRequest, calculateRange])
 
   const creditsData = initialCreditsData.map((product: ProductTypes) => {
     switch (product.creditName) {
@@ -102,22 +140,27 @@ const CalculatorPage = () => {
         return {
           ...product,
           productData: loans.revolving.productData,
-          totalRow: loans.revolving.total
+          totalRow: loans.revolving.total,
+          disabledRange: loanRange.revolvingRange
         }
       case 'businessCredit':
         return {
           ...product,
           productData: loans.business.productData,
-          totalRow: loans.business.total
+          totalRow: loans.business.total,
+          disabledRange: loanRange.businessRange
         }
       default:
         return {
           ...product,
           productData: [],
-          totalRow: {}
+          totalRow: {},
+          disabledRange: false
         }
     }
   });
+  console.log('creditsData', creditsData)
+  console.log('loanRange', loanRange)
 
   return (
     <Container>
@@ -148,6 +191,7 @@ const CalculatorPage = () => {
                 id={index}
                 productData={loan.productData}
                 totalRow={loan?.totalRow}
+                disabledRange={loan?.disabledRange}
               />
             );
           })}

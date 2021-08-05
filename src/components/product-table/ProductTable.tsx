@@ -16,6 +16,7 @@ export interface Props {
     totalInterest?: number;
     totalRepayment?: number;
   };
+  disabledRange?: boolean;
   inputOnChangeHandler: (x: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -30,6 +31,7 @@ const ProductTable: React.FC<Props> = (props) => {
           text={props.productField.text}
           label={props.productField.label}
           inputOnChangeHandler={props.inputOnChangeHandler}
+          disabledRange={props.disabledRange}
         />
         <div className={styles.tableWrapper}>
           <Table striped bordered hover className={styles.tableStyles}>

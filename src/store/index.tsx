@@ -9,10 +9,17 @@ const initialState: StateTypes = {
   duration: 0,
   principal: 0,
   revolvingCredit: { value: 0, name: 'revolvingCredit' },
-  businessCredit: { value: 0, name: 'businessCredit' }
+  businessCredit: { value: 0, name: 'businessCredit' },
+  range: {}
 };
 
 export const calculatorReducer = (state: StateTypes = initialState, action: Action | any): StateTypes => {
+  if (action.type === 'apiRange') {
+    return {
+      ...state,
+      range: action.payload,
+    };
+  }
   if (action.type === 'creditsData') {
     return {
       ...state,
